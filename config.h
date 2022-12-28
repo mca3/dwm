@@ -53,14 +53,6 @@ static const Layout layouts[] = {
 	{ MODKEY|ControlMask,		KEY,	  toggleview,	  {.ui = 1 << TAG} }, \
 	{ MODKEY|ShiftMask,		KEY,	  tag,		  {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask|ShiftMask, KEY,	  toggletag,	  {.ui = 1 << TAG} },
-#define STACKKEYS(ACTION) \
-	{ MODKEY,			XK_j,	 ACTION##stack, {.i = INC(+1) } }, \
-	{ MODKEY,			XK_k,	 ACTION##stack, {.i = INC(-1) } }, \
-	{ MODKEY,			XK_h,	 ACTION##stack, {.i = 0 } }, \
-	{ MODKEY,			XK_l,	 ACTION##stack,	{.i = -1 } },
-
-/* helper for spawning shell commands in the pre dwm-5.0 fashion */
-#define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
@@ -85,10 +77,14 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,		XK_space,  togglefloating, {0} },
 	{ MODKEY,			XK_f, 	   zoom,	   {0} },
 
-	STACKKEYS(				   focus)
-	STACKKEYS(				   push)
-	{ MODKEY,			XK_h,	   setmfact,	   {.f = -0.05} },
-	{ MODKEY,			XK_l,	   setmfact,	   {.f = +0.05} },
+	{ MODKEY,			XK_j,	   focusstack,	   {.i = INC(-1) } },
+	{ MODKEY,			XK_k,	   focusstack, 	   {.i = INC(+1) } },
+	{ MODKEY,			XK_h,	   focusstack, 	   {.i = 0 } },
+	{ MODKEY,			XK_l,	   focusstack,	   {.i = -1 } },
+	{ MODKEY|ShiftMask,		XK_j,	   pushstack, 	   {.i = INC(-1) } },
+	{ MODKEY|ShiftMask,		XK_k,	   pushstack,	   {.i = INC(+1) } },
+	{ MODKEY|ShiftMask,		XK_h,	   setmfact,	   {.f = -0.05} },
+	{ MODKEY|ShiftMask,		XK_l,	   setmfact,	   {.f = +0.05} },
 
 	{ MODKEY,			XK_Tab,    view,	   {0} },
 	TAGKEYS(			XK_1,			   0)
