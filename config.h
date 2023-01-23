@@ -55,6 +55,7 @@ static const Layout layouts[] = {
 	{ MODKEY|ControlMask|ShiftMask, KEY,	  toggletag,	  {.ui = 1 << TAG} },
 
 /* commands */
+#define CMD(x) (const char *[]){x, NULL}
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbordercolor, "-sf", selfgcolor, NULL };
 static const char *termcmd[]  = { "st", NULL };
@@ -63,6 +64,7 @@ static const Key keys[] = {
 	/* modifier			key	   function	   argument */
 	{ MODKEY|ShiftMask,		XK_e,	   quit,	   {0} },
 	{ MODKEY,			XK_F5,	   xrdb,	   {.v = NULL } },
+	{ MODKEY,			XK_b,	   togglebar,	   {0} },
 
 	{ MODKEY,			XK_i,	   setlayout,	   {.v = &layouts[0]} },
 	{ MODKEY,			XK_o,	   setlayout,	   {.v = &layouts[1]} },
@@ -71,7 +73,14 @@ static const Key keys[] = {
 
 	{ MODKEY,			XK_d,	   spawn,	   {.v = dmenucmd } },
 	{ MODKEY,			XK_Return, spawn,	   {.v = termcmd } },
-	{ MODKEY,			XK_b,	   togglebar,	   {0} },
+	{ MODKEY,			XK_x,      spawn,	   {.v = CMD("slock") } },
+
+	{ MODKEY,			XK_slash,  spawn,	   {.v = (const char *[]){ "brightness", "up", NULL } } },
+	{ MODKEY|ShiftMask,		XK_slash,  spawn,	   {.v = (const char *[]){ "brightness", "down", NULL } } },
+
+	{ MODKEY,			XK_backslash,spawn,	   {.v = (const char *[]){ "volume", "mute", NULL } } },
+	{ MODKEY,			XK_bracketleft,spawn,	   {.v = (const char *[]){ "volume", "down", NULL } } },
+	{ MODKEY,			XK_bracketright,spawn,	   {.v = (const char *[]){ "volume", "up", NULL } } },
 
 	{ MODKEY|ShiftMask,		XK_q,	   killclient,	   {0} },
 	{ MODKEY|ShiftMask,		XK_space,  togglefloating, {0} },
