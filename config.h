@@ -66,6 +66,7 @@ static const Key keys[] = {
 	{ MODKEY,			XK_F5,	   xrdb,	   {.v = NULL } },
 	{ MODKEY,			XK_b,	   togglebar,	   {0} },
 
+
 	{ MODKEY,			XK_i,	   setlayout,	   {.v = &layouts[0]} },
 	{ MODKEY,			XK_o,	   setlayout,	   {.v = &layouts[1]} },
 	{ MODKEY,			XK_p,	   setlayout,	   {.v = &layouts[2]} },
@@ -80,7 +81,10 @@ static const Key keys[] = {
 
 	{ MODKEY,			XK_backslash,spawn,	   {.v = (const char *[]){ "volume", "mute", NULL } } },
 	{ MODKEY,			XK_bracketleft,spawn,	   {.v = (const char *[]){ "volume", "down", NULL } } },
-	{ MODKEY,			XK_bracketright,spawn,	   {.v = (const char *[]){ "volume", "up", NULL } } },
+
+	{ MODKEY,			XK_s,	   spawn,	   {.v = (const char *[]){ "scrsht", NULL } } },
+	{ MODKEY|ShiftMask,		XK_s,	   spawn,	   {.v = (const char *[]){ "scrsht", "fullscreen", NULL } } },
+	{ MODKEY|ControlMask,		XK_s,	   spawn,	   {.v = (const char *[]){ "scrsht", "select", NULL } } },
 
 	{ MODKEY|ShiftMask,		XK_q,	   killclient,	   {0} },
 	{ MODKEY|ShiftMask,		XK_space,  togglefloating, {0} },
