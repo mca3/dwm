@@ -167,6 +167,11 @@ typedef struct {
 	int monitor;
 } Rule;
 
+struct RaiseOrRun {
+	const char *class;
+	const char **run;
+};
+
 /* function declarations */
 static void applyrules(Client *c);
 static int applysizehints(Client *c, int *x, int *y, int *w, int *h, int interact);
@@ -265,6 +270,7 @@ static int xerrordummy(Display *dpy, XErrorEvent *ee);
 static int xerrorstart(Display *dpy, XErrorEvent *ee);
 static void xrdb(const Arg *arg);
 static void zoom(const Arg *arg);
+static void raiserun(const Arg *arg);
 
 /* variables */
 static const char broken[] = "broken";
@@ -2269,6 +2275,36 @@ zoom(const Arg *arg)
 	if (c == nexttiled(selmon->clients) && !(c = nexttiled(c->next)))
 		return;
 	pop(c);
+}
+
+void
+raiserun(const Arg *arg)
+{
+	struct RaiseOrRun *rr = (struct RaiseOrRun *)arg->v;
+	const char *class;
+	Client *c;
+	XClassHint ch = { NULL, NULL };
+
+	// find client with class rr->class
+	for (c = selmon->clients; c; c = c->next) {
+		XGetClassHint(dpy, c->win, &ch);
+		class    = ch.res_class ? ch.res_class : broken;
+
+		if (strstr(class, rr->class))
+			break;
+	}
+
+	// spawn if not found
+	if (!c) {
+		Arg s = {.v = rr->run};
+		spawn(&s);
+		return;
+	}
+
+	selmon->seltags ^= 1; /* toggle sel tagset */
+	selmon->tagset[selmon->seltags] = c->tags & TAGMASK;
+	focus(c); /* focus on this specific client */
+	arrange(selmon);
 }
 
 int

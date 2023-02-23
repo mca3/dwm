@@ -56,9 +56,10 @@ static const Layout layouts[] = {
 
 /* commands */
 #define CMD(x) (const char *[]){x, NULL}
+#define SHCMD(x) (const char *[]){"/bin/sh", "-c", x, NULL}
+#define RAISERUN(cls, cmd) {.v = &(const struct RaiseOrRun){.class = cls, .run = cmd}}
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbordercolor, "-sf", selfgcolor, NULL };
-static const char *termcmd[]  = { "st", NULL };
 
 static const Key keys[] = {
 	/* modifier			key	   function	   argument */
@@ -66,14 +67,15 @@ static const Key keys[] = {
 	{ MODKEY,			XK_F5,	   xrdb,	   {.v = NULL } },
 	{ MODKEY,			XK_b,	   togglebar,	   {0} },
 
-
 	{ MODKEY,			XK_i,	   setlayout,	   {.v = &layouts[0]} },
 	{ MODKEY,			XK_o,	   setlayout,	   {.v = &layouts[1]} },
 	{ MODKEY,			XK_p,	   setlayout,	   {.v = &layouts[2]} },
 	{ MODKEY,			XK_space,  setlayout,	   {0} },
 
+	{ MODKEY,			XK_w,      raiserun,	   RAISERUN("weechat", SHCMD("exec $TERMINAL -c weechat -e weechat")) },
+	{ MODKEY|ShiftMask,		XK_w,      raiserun,	   RAISERUN("firefox", SHCMD("exec $BROWSER")) }, // environment variable
 	{ MODKEY,			XK_d,	   spawn,	   {.v = dmenucmd } },
-	{ MODKEY,			XK_Return, spawn,	   {.v = termcmd } },
+	{ MODKEY,			XK_Return, spawn,	   {.v = CMD("st")} },
 	{ MODKEY,			XK_x,      spawn,	   {.v = CMD("slock") } },
 
 	{ MODKEY,			XK_slash,  spawn,	   {.v = (const char *[]){ "brightness", "up", NULL } } },
@@ -119,7 +121,7 @@ static const Button buttons[] = {
 	/* click		event mask	button		function	argument */
 	{ ClkLtSymbol,		0,		Button1,	setlayout,	{0} },
 	{ ClkLtSymbol,		0,		Button3,	setlayout,	{.v = &layouts[2]} },
-	{ ClkStatusText,	0,		Button2,	spawn,		{.v = termcmd } },
+	// { ClkStatusText,	0,		Button2,	spawn,		{.v = termcmd } },
 	{ ClkClientWin,		MODKEY,		Button1,	movemouse,	{0} },
 	{ ClkClientWin,		MODKEY,		Button2,	togglefloating, {0} },
 	{ ClkClientWin,		MODKEY,		Button3,	resizemouse,	{0} },
