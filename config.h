@@ -83,6 +83,9 @@ static const Key keys[] = {
 
 	{ MODKEY,			XK_backslash,spawn,	   {.v = (const char *[]){ "volume", "mute", NULL } } },
 	{ MODKEY,			XK_bracketleft,spawn,	   {.v = (const char *[]){ "volume", "down", NULL } } },
+	{ MODKEY|ShiftMask,		XK_bracketleft,spawn,	   {.v = (const char *[]){ "volume", "down", "1", NULL } } },
+	{ MODKEY,			XK_bracketright,spawn,	   {.v = (const char *[]){ "volume", "up", NULL } } },
+	{ MODKEY|ShiftMask,		XK_bracketright,spawn,	   {.v = (const char *[]){ "volume", "up", "1", NULL } } },
 
 	{ MODKEY,			XK_s,	   spawn,	   {.v = (const char *[]){ "scrsht", NULL } } },
 	{ MODKEY|ShiftMask,		XK_s,	   spawn,	   {.v = (const char *[]){ "scrsht", "fullscreen", NULL } } },
