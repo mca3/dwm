@@ -1,3 +1,4 @@
+#include <X11/XF86keysym.h>
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
@@ -76,7 +77,7 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,		XK_w,      raiserun,	   RAISERUN("firefox", SHCMD("exec $BROWSER")) }, // environment variable
 	{ MODKEY,			XK_d,	   spawn,	   {.v = dmenucmd } },
 	{ MODKEY,			XK_Return, spawn,	   {.v = CMD("st")} },
-	{ MODKEY,			XK_x,      spawn,	   {.v = CMD("slock") } },
+	{ MODKEY,			XK_x,      spawn,	   {.v = (const char *[]){ "loginctl", "lock-session", NULL } } },
 
 	{ MODKEY,			XK_slash,  spawn,	   {.v = (const char *[]){ "brightness", "up", NULL } } },
 	{ MODKEY|ShiftMask,		XK_slash,  spawn,	   {.v = (const char *[]){ "brightness", "down", NULL } } },
@@ -90,6 +91,8 @@ static const Key keys[] = {
 	{ MODKEY,			XK_s,	   spawn,	   {.v = (const char *[]){ "scrsht", NULL } } },
 	{ MODKEY|ShiftMask,		XK_s,	   spawn,	   {.v = (const char *[]){ "scrsht", "fullscreen", NULL } } },
 	{ MODKEY|ControlMask,		XK_s,	   spawn,	   {.v = (const char *[]){ "scrsht", "select", NULL } } },
+
+	{ 0,				XF86XK_PowerOff,spawn,	   {.v = CMD("powermenu") } },
 
 	{ MODKEY|ShiftMask,		XK_q,	   killclient,	   {0} },
 	{ MODKEY|ShiftMask,		XK_space,  togglefloating, {0} },
